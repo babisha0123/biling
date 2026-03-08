@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            padding: 40px;
+            color: #1e293b;
+            background: white;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 50px;
+        }
+
+        .logo-section h1 {
+            margin: 0;
+            color: #0284c7;
+            font-size: 32px;
+            letter-spacing: -1px;
+        }
+
+        .logo-section p {
+            margin: 5px 0;
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .invoice-info {
+            text-align: right;
+        }
+
+        .invoice-info h2 {
+            margin: 0;
+            font-size: 24px;
+            color: #0f172a;
+        }
+
+        .invoice-info p {
+            margin: 5px 0;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .client-section {
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .client-section h3 {
+            margin: 0 0 12px 0;
+            font-size: 14px;
+            text-transform: uppercase;
+            color: #94a3b8;
+            letter-spacing: 1px;
+        }
+
+        .client-details p {
+            margin: 4px 0;
+            font-size: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        th {
+            text-align: left;
+            padding: 12px 15px;
+            background: #f1f5f9;
+            color: #475569;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 14px;
+        }
+
+        .summary {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 30px;
+        }
+
+        .summary-table {
+            width: 350px;
+        }
+
+        .summary-table tr td {
+            padding: 8px 15px;
+            border: none;
+        }
+
+        .summary-table tr td:last-child {
+            text-align: right;
+            font-weight: 500;
+        }
+
+        .summary-table .total-row {
+            background: #0f172a;
+            color: white;
+            border-radius: 8px;
+        }
+
+        .summary-table .total-row td {
+            padding: 15px;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .footer {
+            margin-top: 60px;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .notes {
+            font-size: 13px;
+            color: #64748b;
+            max-width: 60%;
+        }
+
+        .signature-box {
+            text-align: center;
+        }
+
+        .sig-line {
+            border-bottom: 1.5px solid #0f172a;
+            width: 180px;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+
+        .sig-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #0f172a;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-section">
+                <h1>Chellam Battery Works</h1>
+                <p>294, Eathamozhi Road, Kottar, Nagercoil<br>
+                    GSTIN: 33ELMPS0117K1ZY | Ph: 04652 240106</p>
+            </div>
+            <div class="invoice-info">
+                <h2>INVOICE</h2>
+                <p><b>#{{invoiceNumber}}</b></p>
+                <p>{{date}}</p>
+                <p><b>Mode:</b> {{paymentMode}}</p>
+            </div>
+        </div>
+
+        <div class="client-section">
+            <div class="client-details">
+                <h3>Bill To</h3>
+                <p><b>{{customerName}}</b></p>
+                <p>{{customerAddress}}</p>
+                <p>Phone: {{customerPhone}}</p>
+                {{#if customerGst}}<p>GSTIN: {{customerGst}}</p>{{/if}}
+            </div>
+            <div class="client-details">
+                <h3>Notes</h3>
+                <p>Warranty valid as per manufacturer terms.</p>
+                <p>Payment due upon receipt.</p>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Product & HSN</th>
+                    <th style="text-align: center;">Qty</th>
+                    <th style="text-align: right;">Rate</th>
+                    <th style="text-align: right;">CGST</th>
+                    <th style="text-align: right;">SGST</th>
+                    <th style="text-align: right;">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each items}}
+                <tr>
+                    <td><b>{{name}}</b><br><small style="color:#64748b">HSN: {{hsn}}</small></td>
+                    <td style="text-align: center;">{{qty}}</td>
+                    <td style="text-align: right;">{{price}}</td>
+                    <td style="text-align: right;">{{cgst}}</td>
+                    <td style="text-align: right;">{{sgst}}</td>
+                    <td style="text-align: right;"><b>{{total}}</b></td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+        <div class="summary">
+            <table class="summary-table">
+                <tr>
+                    <td>Total Taxable</td>
+                    <td>₹{{totalTaxable}}</td>
+                </tr>
+                <tr>
+                    <td>Discount ({{discountPercent}}%)</td>
+                    <td style="color:#ef4444">-₹{{discountAmount}}</td>
+                </tr>
+                <tr>
+                    <td>Net Taxable</td>
+                    <td>₹{{netTaxable}}</td>
+                </tr>
+                <tr>
+                    <td>CGST (9%)</td>
+                    <td>₹{{cgst}}</td>
+                </tr>
+                <tr>
+                    <td>SGST (9%)</td>
+                    <td>₹{{sgst}}</td>
+                </tr>
+                <tr class="total-row">
+                    <td>Grand Total</td>
+                    <td>₹{{grandTotal}}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="footer">
+            <div class="notes">
+                <p><b>Amount in Words:</b> {{amountInWords}}</p>
+                <p style="margin-top: 15px;">Terms: Goods once sold cannot be returned. Warranty is settled by the
+                    manufacturer.</p>
+            </div>
+            <div class="signature-box">
+                <div class="sig-line"></div>
+                <div class="sig-label">Authorized Signatory</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

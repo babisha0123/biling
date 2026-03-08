@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            color: #333;
+        }
+
+        .invoice-box {
+            max-width: 800px;
+            margin: auto;
+            border: 2px solid #333;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            text-transform: uppercase;
+        }
+
+        .top-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .shop-details {
+            width: 60%;
+        }
+
+        .invoice-meta {
+            width: 35%;
+            text-align: right;
+        }
+
+        .customer-section {
+            margin-bottom: 20px;
+            border: 1px solid #333;
+            padding: 10px;
+            background: #f9f9f9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            border: 1px solid #333;
+        }
+
+        th,
+        td {
+            border: 1px solid #333;
+            padding: 8px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        th {
+            background-color: #eee;
+        }
+
+        .summary-box {
+            float: right;
+            width: 300px;
+            border: 1px solid #333;
+            margin-top: 10px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            background: #eee;
+        }
+
+        .footer {
+            margin-top: 50px;
+            clear: both;
+        }
+
+        .amount-words {
+            font-style: italic;
+            margin-top: 20px;
+            border-top: 1px solid #333;
+            padding-top: 10px;
+        }
+
+        .signature {
+            float: right;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .sig-space {
+            border-bottom: 1px solid #333;
+            width: 200px;
+            height: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="invoice-box">
+        <div class="header">
+            <h1>TAX INVOICE</h1>
+        </div>
+
+        <div class="top-meta">
+            <div class="shop-details">
+                <h2 style="margin:0;">Chellam Battery Works</h2>
+                <p style="margin:5px 0; font-size: 14px;">294, Eathamozhi Road, Vaithiyanathapuram,<br>
+                    Kottar, Nagercoil - 2<br>
+                    Email: chellambattery@yahoo.in<br>
+                    Ph: 04652 240106 | Cell: 9489530660<br>
+                    <b>GSTIN: 33ELMPS0117K1ZY</b><br>
+                    State: Tamil Nadu | Code: 33
+                </p>
+            </div>
+            <div class="invoice-meta">
+                <p><b>Invoice No:</b> {{invoiceNumber}}</p>
+                <p><b>Date:</b> {{date}}</p>
+            </div>
+        </div>
+
+        <div class="customer-section">
+            <p style="margin:0 0 5px 0;"><b>To:</b></p>
+            <p style="margin:2px 0;"><b>{{customerName}}</b></p>
+            <p style="margin:2px 0;">{{customerAddress}}</p>
+            <p style="margin:2px 0;">Phone: {{customerPhone}}</p>
+            {{#if customerGst}}<p style="margin:2px 0;">Party GSTIN: {{customerGst}}</p>{{/if}}
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 50px;">Sl No</th>
+                    <th>Product Name</th>
+                    <th>HSN</th>
+                    <th>Qty</th>
+                    <th>Rate</th>
+                    <th>Taxable</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each items}}
+                <tr>
+                    <td>{{index}}</td>
+                    <td>{{name}}</td>
+                    <td>{{hsn}}</td>
+                    <td>{{qty}}</td>
+                    <td>{{price}}</td>
+                    <td>{{taxable}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+        <div class="summary-box">
+            <div class="summary-row"><span>Total Taxable:</span><span>₹{{totalTaxable}}</span></div>
+            <div class="summary-row"><span>Discount ({{discountPercent}}%):</span><span>-₹{{discountAmount}}</span>
+            </div>
+            <div class="summary-row"><span>Net Taxable:</span><span>₹{{netTaxable}}</span></div>
+            <div class="summary-row"><span>CGST (9%):</span><span>₹{{cgst}}</span></div>
+            <div class="summary-row"><span>SGST (9%):</span><span>₹{{sgst}}</span></div>
+            <div class="summary-row"><span>Invoice Total:</span><span>₹{{grandTotal}}</span></div>
+        </div>
+
+        <div class="footer">
+            <p class="amount-words"><b>Amount in Words:</b> {{amountInWords}}</p>
+            <div class="signature">
+                <div class="sig-space"></div>
+                <p>Authorized Signatory</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
